@@ -1,0 +1,19 @@
+{
+  "version"         : "0.0.1",
+  "name"            : "IMN",
+  "description"     :"IMN Order Management module for PlentyMarkets",
+  "namespace"       : "IMN",
+  "author"          : "IMN",
+  "keywords"        :["IMN", "marketplaces", "plugins"],
+  "type"            :"backend",
+  "require"         :[],
+  "email"           : "support@imnnow.com",
+  "serviceProvider" : "IMN\\Providers\\IMNServiceProvider",
+  "runOnBuild": [
+    "IMN\\Migrations\\CreateSettingsTable",
+    "IMN\\Migrations\\CreateOrderTable",
+    "IMN\\Migrations\\CreateOrderReferer",
+    "IMN\\Migrations\\UpdateOrderTable",
+    "IMN\\Migrations\\CreateLogTable"
+  ]
+}

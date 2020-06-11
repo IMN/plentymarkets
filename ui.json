@@ -1,0 +1,12 @@
+{
+  "defaultEntryPoint": "index.html",
+  "namespace": "IMN",
+  "menuEntries": [
+    {
+      "label": "IMN",
+      "menu": "start",
+      "urlKey": "imn",
+      "entryPoint": "index.html?action=start"
+    }
+  ]
+}
