@@ -33,7 +33,7 @@ class CreateOrderReferer
             'isFilterable' => true
         ]);
 
-        $this->settingsHelper->setProperty('orderRefererId',  $orderReferrer->id);
+        $this->settingsHelper->setProperty('orderRefererId',  (string)$orderReferrer->id);
         $this->settingsHelper->save(true, true);
     }
 
