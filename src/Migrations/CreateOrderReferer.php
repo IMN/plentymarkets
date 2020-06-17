@@ -8,6 +8,7 @@
 
 namespace IMN\Migrations;
 
+use IMN\Helper\SettingsHelper;
 use IMN\Repositories\SettingsRepository;
 use Plenty\Modules\Order\Referrer\Contracts\OrderReferrerRepositoryContract;
 use Plenty\Modules\Plugin\DataBase\Contracts\Migrate;
@@ -15,11 +16,11 @@ use Plenty\Modules\Plugin\DataBase\Contracts\Migrate;
 
 class CreateOrderReferer
 {
-    private $settingsRepository;
+    private $settingsHelper;
 
-    public function __construct(SettingsRepository $settingsRepository)
+    public function __construct(SettingsHelper $settingsHelper)
     {
-        $this->settingsRepository = $settingsRepository;
+        $this->settingsHelper = $settingsHelper;
     }
 
 
@@ -32,17 +33,8 @@ class CreateOrderReferer
             'isFilterable' => true
         ]);
 
-        $retries = 0;
-
-        do
-        {
-            $settings = $this->settingsRepository->updateSettings('orderRefererId', array('value' => $orderReferrer->id));
-            if($settings === false)
-            {
-                sleep(5);
-            }
-        }
-        while($settings === false && ++$retries < 3);
+        $this->settingsHelper->setProperty('orderRefererId',  $orderReferrer->id);
+        $this->settingsHelper->save();
     }
 
 }
