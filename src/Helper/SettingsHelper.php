@@ -133,14 +133,14 @@ class SettingsHelper
     }
 
 
-    public function save($encodeJson = true) {
+    public function save($encodeJson = true, $removeExceptions = false) {
         foreach($this->properties as $key => $property) {
             $value = $property['value'];
             if($property['type'] == 'json' && $encodeJson) {
                 $value = \json_encode($value);
             }
             if(array_key_exists('validate', $property) && array_key_exists('regex', $property['validate'])) {
-                if(!preg_match($property['validate']['regex'], $value)) {
+                if(!preg_match($property['validate']['regex'], $value) && !$removeExceptions) {
                     if(array_key_exists('error_msg', $property['validate'])) {
                         throw new \Exception($property['validate']['error_msg'], 400);
                     }

@@ -37,6 +37,6 @@ class IMNServiceProvider extends ServiceProvider
         //ProcedureEntry::PROCEDURE_GROUP_SHIPPING
         );
 
-        $settingsService->save();
+        $settingsService->save(true, false);
     }
 }

@@ -34,7 +34,7 @@ class CreateOrderReferer
         ]);
 
         $this->settingsHelper->setProperty('orderRefererId',  $orderReferrer->id);
-        $this->settingsHelper->save();
+        $this->settingsHelper->save(true, false);
     }
 
 }
