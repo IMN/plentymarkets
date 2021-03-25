@@ -156,7 +156,8 @@ class OrderService
         $order = $this->orderRepository->updateOrder($orderRequest, $order->id);
 
         if($payOrder) {
-            $contact = $this->getContact($billingInfo['customer']);
+            //$contact = $this->getContact($billingInfo['customer']);
+            $contact = $this->getContact($shippingInfo['contact']);
             $this->createPayment($imnOrder, $order, $contact);
         }
 
@@ -293,12 +294,12 @@ class OrderService
             'firstName' => $imnContact['firstName'],
             'lastName' => $imnContact['lastName'],
             'options' => array(
-                array(
-                    'typeId' => ContactOption::TYPE_PHONE,
-                    'subTypeId' => ContactOption::SUBTYPE_PRIVATE,
-                    'priority' => 0,
-                    'value' => $phone
-                ),
+//                array(
+//                    'typeId' => ContactOption::TYPE_PHONE,
+//                    'subTypeId' => ContactOption::SUBTYPE_PRIVATE,
+//                    'priority' => 0,
+//                    'value' => $phone
+//                ),
                 array(
                     'typeId' => ContactOption::TYPE_ACCESS,
                     'subTypeId' => ContactOption::SUBTYPE_GUEST,
