@@ -20,6 +20,7 @@ use Plenty\Modules\Order\Contracts\OrderRepositoryContract;
 use Plenty\Modules\Payment\Contracts\PaymentContactRelationRepositoryContract;
 use Plenty\Modules\Payment\Contracts\PaymentOrderRelationRepositoryContract;
 use Plenty\Modules\Payment\Contracts\PaymentRepositoryContract;
+use Plenty\Modules\Account\Contact\Models\ContactOption;
 use Plenty\Plugin\Application;
 
 
@@ -155,7 +156,8 @@ class OrderService
         $order = $this->orderRepository->updateOrder($orderRequest, $order->id);
 
         if($payOrder) {
-            $contact = $this->getContact($billingInfo['customer']);
+            //$contact = $this->getContact($billingInfo['customer']);
+            $contact = $this->getContact($shippingInfo['contact']);
             $this->createPayment($imnOrder, $order, $contact);
         }
 
@@ -186,7 +188,7 @@ class OrderService
         $billingInfo = $info['billingInfo'];
         $shippingInfo = $info['shippingInfo'];
         $pricingInfo = $info['pricingInfo'];
-        $contact = $this->getContact($billingInfo['customer']);
+        $contact = $this->getContact($shippingInfo['contact']);
         $contactId = $contact->id;
 
         $billingAddressId = $this->getAddressId(
@@ -283,6 +285,7 @@ class OrderService
         if($contactId) {
             return $contactId;
         }
+        $phone = (empty($imnContact['phoneNumber'])) ? $imnContact['mobilePhoneNumber'] : $imnContact['phoneNumber'];
         $name = (empty($imnContact['companyName'])) ? $imnContact['firstName']." ".$imnContact['lastName'] : $imnContact['companyName'];
 
         $contactRequest = array(
@@ -291,15 +294,21 @@ class OrderService
             'firstName' => $imnContact['firstName'],
             'lastName' => $imnContact['lastName'],
             'options' => array(
+//                array(
+//                    'typeId' => ContactOption::TYPE_PHONE,
+//                    'subTypeId' => ContactOption::SUBTYPE_PRIVATE,
+//                    'priority' => 0,
+//                    'value' => $phone
+//                ),
                 array(
-                    'typeId' => 10,
-                    'subTypeId' => 11,
+                    'typeId' => ContactOption::TYPE_ACCESS,
+                    'subTypeId' => ContactOption::SUBTYPE_GUEST,
                     'priority' => 0,
                     'value' => '1'
                 ),
                 array(
-                    'typeId' => 2,
-                    'subTypeId' => 4,
+                    'typeId' => ContactOption::TYPE_MAIL,
+                    'subTypeId' => ContactOption::SUBTYPE_PRIVATE,
                     'priority' => 0,
                     'value' => $imnContact['email']
                 )

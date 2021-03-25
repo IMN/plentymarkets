@@ -168,8 +168,9 @@ class HarvestService
             return $order;
 
         } catch(ValidationException $ex) {
-            $error = $ex->getMessage();
+            $error = $ex->getMessageBag()->toJson();
             $this->logHelper->log($this->imnOrderId, LogHelper::TYPE_ERROR, $error);
+            throw $ex;
 
         } catch(\Exception $ex) {
             $this->logHelper->log($this->imnOrderId, LogHelper::TYPE_ERROR, $ex->getMessage());
