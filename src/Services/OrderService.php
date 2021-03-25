@@ -188,7 +188,7 @@ class OrderService
         $billingInfo = $info['billingInfo'];
         $shippingInfo = $info['shippingInfo'];
         $pricingInfo = $info['pricingInfo'];
-        $contact = $this->getContact($billingInfo['customer']);
+        $contact = $this->getContact($shippingInfo['contact']);
         $contactId = $contact->id;
 
         $billingAddressId = $this->getAddressId(
