@@ -283,6 +283,7 @@ class OrderService
         if($contactId) {
             return $contactId;
         }
+        $phone = (empty($imnContact['phoneNumber'])) ? $imnContact['mobilePhoneNumber'] : $imnContact['phoneNumber'];
         $name = (empty($imnContact['companyName'])) ? $imnContact['firstName']." ".$imnContact['lastName'] : $imnContact['companyName'];
 
         $contactRequest = array(
@@ -292,14 +293,20 @@ class OrderService
             'lastName' => $imnContact['lastName'],
             'options' => array(
                 array(
-                    'typeId' => 10,
-                    'subTypeId' => 11,
+                    'typeId' => ContactOption::TYPE_PHONE,
+                    'subTypeId' => ContactOption::SUBTYPE_PRIVATE,
+                    'priority' => 0,
+                    'value' => $phone
+                ),
+                array(
+                    'typeId' => ContactOption::TYPE_ACCESS,
+                    'subTypeId' => ContactOption::SUBTYPE_GUEST,
                     'priority' => 0,
                     'value' => '1'
                 ),
                 array(
-                    'typeId' => 2,
-                    'subTypeId' => 4,
+                    'typeId' => ContactOption::TYPE_MAIL,
+                    'subTypeId' => ContactOption::SUBTYPE_PRIVATE,
                     'priority' => 0,
                     'value' => $imnContact['email']
                 )
